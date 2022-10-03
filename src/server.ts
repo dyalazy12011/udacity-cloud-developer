@@ -1,6 +1,5 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import _ from 'lodash';
 import {filterImageFromURL, deleteLocalFiles} from './util/util';
 
 (async () => {
@@ -32,10 +31,10 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
 
   //! END @TODO1
   app.get("/filteredimage", async (req, res) => {
-    const query = _.get(req, "query", {});
-    const imageUrl = _.get(query, "image_url", "");
+    const query = req.query;
+    const imageUrl = query.image_url;
     console.log(imageUrl);
-    if (_.isEmpty(imageUrl)) {
+    if (!imageUrl) {
       res.send("The url does not exist!");
     } else {
       const filteredImage = await filterImageFromURL(imageUrl);
